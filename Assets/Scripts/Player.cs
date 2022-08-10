@@ -18,12 +18,13 @@ internal sealed class Player : MonoBehaviour
         _camera = Camera.main;
         var moveTransform = new AccelerationMove(transform, _speed, _acceleration);
         var rotation = new RotationShip(transform);
-        _ship = new Ship(moveTransform, rotation);
+        _ship = new Ship(moveTransform/*, rotation*/);
+        
     }
     void Update()
     {
         var direction = Input.mousePosition - _camera.WorldToScreenPoint(transform.position);
-        _ship.Rotation(direction);
+        //_ship.Rotation(direction);
         _ship.Move(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), Time.deltaTime);
 
         AccelerationControl();
