@@ -1,16 +1,37 @@
 using UnityEngine;
 
-public class Ship : IMove, IRotation
+public class Ship : IMove
 {
-    private readonly IMove _moveImplementation;
-    private readonly IRotation _rotationImplementation;
+    private IMove _moveImplementation;
+     
+    private float _acceleration;
+    private float _hp;
+    private float _speed;
 
-    public float Speed => _moveImplementation.Speed;
 
-    public Ship (IMove moveImplementation, IRotation rotationImplementation)
+    public float Speed
+    {
+        get => _speed;
+        set => _speed = value;
+    }
+    public float Acceleration
+    {
+        get => _acceleration;
+        set => _acceleration = value;
+    }
+    public float Hp
+    {
+        get => _hp;
+        set => _hp = value;
+    }
+    public Ship()
+    {
+        
+    }
+    public void GetMove (IMove moveImplementation)
     {
         _moveImplementation = moveImplementation;
-        _rotationImplementation = rotationImplementation;
+       
     }
 
     public void Move (float horizontal, float vertical, float deltaTime)
@@ -18,10 +39,7 @@ public class Ship : IMove, IRotation
         _moveImplementation.Move(horizontal, vertical, deltaTime);
     }
 
-    public void Rotation (Vector3 direction)
-    {
-        _rotationImplementation.Rotation(direction);
-    }
+    
 
     public void AddAcceleration()
     {

@@ -5,25 +5,61 @@ internal sealed class Player : MonoBehaviour
     [SerializeField] private float _speed;
     [SerializeField] private float _acceleration;
     [SerializeField] private float _hp;
-    [SerializeField] private Rigidbody2D _bullet;
+    [SerializeField] private GameObject _bullet;
     [SerializeField] private Transform _barrel;
-    [SerializeField] private float _force;    
+    [SerializeField] private float _force;
+    private Rigidbody2D _bulletRB;
     private Camera _camera;
     private Ship _ship;
-    
 
+
+    public float Force
+    {
+        get => _force;
+        set => _force = value;
+    }
+    public Transform Barrel
+    {
+        get => _barrel;
+        set => _barrel = value;
+    }
+    public GameObject Bullet
+    {
+        get => _bullet;
+        set => _bullet = value;
+    }
+    public float HP
+    {
+        get => _hp;
+        set => _hp = value;
+    }
+    public float Acceleration 
+    { 
+        get => _acceleration; 
+        set => _acceleration = value; 
+    }
+    public float Speed 
+    { 
+        get => _speed; 
+        set => _speed = value; 
+    }
+    public Ship Ship 
+    { 
+        get => _ship; 
+        set => _ship = value; 
+    }
 
     private void Start()
     {
-        _camera = Camera.main;
-        var moveTransform = new AccelerationMove(transform, _speed, _acceleration);
+        _bulletRB = _bullet.GetComponent<Rigidbody2D>();
+        _camera = Camera.main;        
         var rotation = new RotationShip(transform);
-        _ship = new Ship(moveTransform, rotation);
     }
     void Update()
     {
         var direction = Input.mousePosition - _camera.WorldToScreenPoint(transform.position);
-        _ship.Rotation(direction);
+        //_ship.Rotation(direction);
+
         _ship.Move(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), Time.deltaTime);
 
         AccelerationControl();
@@ -34,12 +70,12 @@ internal sealed class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            _ship.AddAcceleration();
+            Ship.AddAcceleration();
         }
 
         if (Input.GetKeyUp(KeyCode.LeftShift))
         {
-            _ship.RemoveAcceleration();
+            Ship.RemoveAcceleration();
         }
     }
 
@@ -47,7 +83,7 @@ internal sealed class Player : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire1"))
         {
-            var temAmmunition = Instantiate(_bullet, _barrel.position, _barrel.rotation);
+            var temAmmunition = Instantiate(_bulletRB, _barrel.position, _barrel.rotation);
             temAmmunition.AddForce(_barrel.up * _force);
         }
     }

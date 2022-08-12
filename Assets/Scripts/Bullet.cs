@@ -1,12 +1,24 @@
 using System;
 using UnityEngine;
 
-internal sealed class Bullet : MonoBehaviour
+public class Bullet : IBullet
 {
-    
-    void Start()
-    {
-        Destroy(gameObject, 2);
+    private float _damage;
+    private object _bulletSprite;
+    private float _force;
+    public float Damage 
+    { 
+        get => _damage; 
+        set => _damage = value;
     }
-
+    public object BulletSprite 
+    { 
+        get => _bulletSprite; 
+        set => _bulletSprite = value; 
+    }
+    public float Force 
+    { 
+        get => _force; 
+        set => _force = value; 
+    }
 }
