@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Ship : IMove
 {
-    private readonly IMove _moveImplementation;
+    private IMove _moveImplementation;
      
     private float _acceleration;
     private float _hp;
@@ -11,12 +11,12 @@ public class Ship : IMove
 
     public float Speed
     {
-        private get => _speed;
+        get => _speed;
         set => _speed = value;
     }
     public float Acceleration
     {
-        private get => _acceleration;
+        get => _acceleration;
         set => _acceleration = value;
     }
     public float Hp
@@ -28,7 +28,7 @@ public class Ship : IMove
     {
         
     }
-    public Ship (IMove moveImplementation)
+    public void GetMove (IMove moveImplementation)
     {
         _moveImplementation = moveImplementation;
        
